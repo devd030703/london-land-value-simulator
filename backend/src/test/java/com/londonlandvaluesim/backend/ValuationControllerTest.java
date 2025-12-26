@@ -24,7 +24,8 @@ class ValuationControllerTest {
             .param("taxRate", "0.03"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.normalizedPostcode").value("E14 8HX"))
-        .andExpect(jsonPath("$.zone").value("E14"))
+        .andExpect(jsonPath("$.zoneType").value("OUTWARD_POSTCODE"))
+        .andExpect(jsonPath("$.zoneCode").value("E14"))
         .andExpect(jsonPath("$.medianPrice").value(500000))
         .andExpect(jsonPath("$.landValuePerDwelling").value(200000.00))
         .andExpect(jsonPath("$.annualLandTax").value(6000.00));

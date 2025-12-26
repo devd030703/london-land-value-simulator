@@ -28,6 +28,7 @@ public class ValuationController {
 
     return new ValuationResponse(
         normalizedPostcode,
+        zone.type().name(),
         zone.code(),
         medianPrice,
         landShare,

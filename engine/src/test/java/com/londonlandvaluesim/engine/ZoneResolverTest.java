@@ -8,6 +8,7 @@ class ZoneResolverTest {
   @Test
   void resolvesOutwardCodeFromNormalizedPostcode() {
     Zone zone = ZoneResolver.resolveFromNormalizedPostcode("E14 8HX");
+    assertEquals(ZoneType.OUTWARD_POSTCODE, zone.type());
     assertEquals("E14", zone.code());
   }
 }

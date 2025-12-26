@@ -9,7 +9,7 @@ class StubMedianPriceProviderTest {
   @Test
   void returnsExpectedMedianForKnownZone() {
     StubMedianPriceProvider provider = new StubMedianPriceProvider();
-    BigDecimal median = provider.medianPriceFor(new Zone("E14"));
+    BigDecimal median = provider.medianPriceFor(new Zone(ZoneType.OUTWARD_POSTCODE, "E14"));
     assertEquals(new BigDecimal("500000"), median);
   }
 }

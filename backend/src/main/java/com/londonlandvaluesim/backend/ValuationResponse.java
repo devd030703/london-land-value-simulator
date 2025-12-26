@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public record ValuationResponse(
     String normalizedPostcode,
-    String zone,
+    String zoneType,
+    String zoneCode,
     BigDecimal medianPrice,
     BigDecimal landShare,
     BigDecimal taxRate,

@@ -15,6 +15,6 @@ public final class ZoneResolver {
     }
 
     String outward = normalizedPostcode.substring(0, spaceIndex);
-    return new Zone(outward);
+    return new Zone(ZoneType.OUTWARD_POSTCODE, outward);
   }
 }
