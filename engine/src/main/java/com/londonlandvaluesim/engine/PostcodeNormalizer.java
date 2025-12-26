@@ -15,7 +15,7 @@ public final class PostcodeNormalizer {
 
     String cleaned = raw.trim().replaceAll("\\s+", "").toUpperCase();
     if (!POSTCODE_PATTERN.matcher(cleaned).matches()) {
-      throw new IllegalArgumentException("Invalid UK postcode format");
+      throw new IllegalArgumentException("Invalid UK postcode format: " + raw);
     }
 
     int split = cleaned.length() - 3;
