@@ -39,4 +39,20 @@ class ZonesControllerTest {
         .andExpect(jsonPath("$.outwardHasPricing").value(true))
         .andExpect(jsonPath("$.lsoaHasPricing").value(false));
   }
+
+  @Test
+  void rejectsMissingPostcode() throws Exception {
+    mockMvc.perform(get("/zones"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.error").value("MISSING_PARAMETER"))
+        .andExpect(jsonPath("$.field").value("postcode"));
+  }
+
+  @Test
+  void rejectsInvalidPostcode() throws Exception {
+    mockMvc.perform(get("/zones")
+            .param("postcode", "bad"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.error").value("INVALID_INPUT"));
+  }
 }

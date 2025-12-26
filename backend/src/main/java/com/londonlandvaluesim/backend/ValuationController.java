@@ -25,6 +25,9 @@ public class ValuationController {
       @RequestParam BigDecimal landShare,
       @RequestParam BigDecimal taxRate
   ) {
+    validateRate(landShare, "landShare");
+    validateRate(taxRate, "taxRate");
+
     String normalizedPostcode = PostcodeNormalizer.normalize(postcode);
     ZoneType resolvedType = ZoneTypeParser.parseOrDefault(zoneType);
     Zone zone = resolvedType == ZoneType.LSOA
@@ -43,5 +46,14 @@ public class ValuationController {
         result.landValuePerDwelling(),
         result.annualLandTax()
     );
+  }
+
+  private static void validateRate(BigDecimal value, String name) {
+    if (value == null) {
+      throw new IllegalArgumentException(name + " must be between 0 and 1");
+    }
+    if (value.compareTo(BigDecimal.ZERO) < 0 || value.compareTo(BigDecimal.ONE) > 0) {
+      throw new IllegalArgumentException(name + " must be between 0 and 1");
+    }
   }
 }
