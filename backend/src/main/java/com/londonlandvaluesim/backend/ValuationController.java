@@ -1,7 +1,6 @@
 package com.londonlandvaluesim.backend;
 
 import com.londonlandvaluesim.engine.PostcodeNormalizer;
-import com.londonlandvaluesim.engine.StubMedianPriceProvider;
 import com.londonlandvaluesim.engine.ValuationCalculator;
 import com.londonlandvaluesim.engine.ValuationResult;
 import com.londonlandvaluesim.engine.Zone;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ValuationController {
   private final ValuationCalculator calculator = new ValuationCalculator();
-  private final StubMedianPriceProvider medianPriceProvider = new StubMedianPriceProvider();
+  private final CsvMedianPriceProvider medianPriceProvider = new CsvMedianPriceProvider();
 
   @GetMapping("/valuation")
   public ValuationResponse valuation(
