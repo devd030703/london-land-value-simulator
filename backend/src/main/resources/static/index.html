@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>London Land Value Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>London Land Value Simulator</h1>
+
+    <section class="card">
+      <div class="field">
+        <label for="postcode">Postcode</label>
+        <input id="postcode" type="text" value="E14 8HX" />
+      </div>
+
+      <div class="field">
+        <label for="zoneType">Zone type</label>
+        <select id="zoneType">
+          <option value="OUTWARD_POSTCODE" selected>OUTWARD_POSTCODE</option>
+          <option value="LSOA">LSOA</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="landShare">Land share: <span id="landShareValue">0.40</span></label>
+        <input id="landShare" type="range" min="0" max="1" step="0.01" value="0.40" />
+      </div>
+
+      <div class="field">
+        <label for="taxRate">Tax rate: <span id="taxRateValue">0.03</span></label>
+        <input id="taxRate" type="range" min="0" max="0.10" step="0.001" value="0.03" />
+      </div>
+
+      <div class="actions">
+        <button id="calculateBtn">Calculate</button>
+        <button id="zonesBtn">Check Zones</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Valuation</h2>
+      <pre id="valuationOutput">...</pre>
+    </section>
+
+    <section class="card">
+      <h2>Zones</h2>
+      <pre id="zonesOutput">...</pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
