@@ -1,12 +1,6 @@
 package com.londonlandvaluesim.engine;
 
 public final class ZoneResolver {
-  private static final java.util.Map<String, String> LSOA_BY_OUTWARD = java.util.Map.of(
-      "E14", "E01000001",
-      "E1", "E01000002",
-      "SW1A", "E01000003"
-  );
-
   private ZoneResolver() {
   }
 
@@ -32,11 +26,18 @@ public final class ZoneResolver {
       return new Zone(ZoneType.OUTWARD_POSTCODE, outward);
     }
 
-    String lsoa = LSOA_BY_OUTWARD.get(outward);
-    if (lsoa == null) {
-      throw new IllegalArgumentException("No LSOA mapping for outward: " + outward);
+    throw new IllegalArgumentException("LSOA resolution requires a lookup");
+  }
+
+  public static Zone resolve(ZoneType zoneType, String normalizedPostcode, LsoaLookup lsoaLookup) {
+    if (zoneType == ZoneType.OUTWARD_POSTCODE) {
+      return resolve(zoneType, normalizedPostcode);
+    }
+    if (lsoaLookup == null) {
+      throw new IllegalArgumentException("LSOA lookup must be provided");
     }
 
+    String lsoa = lsoaLookup.lsoaForNormalizedPostcode(normalizedPostcode);
     return new Zone(ZoneType.LSOA, lsoa);
   }
 }

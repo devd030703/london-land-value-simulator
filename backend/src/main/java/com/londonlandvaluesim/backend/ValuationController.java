@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValuationController {
   private final ValuationCalculator calculator = new ValuationCalculator();
   private final CsvMedianPriceProvider medianPriceProvider = new CsvMedianPriceProvider();
+  private final OnspdCsvLsoaLookup lsoaLookup = new OnspdCsvLsoaLookup();
 
   @GetMapping("/valuation")
   public ValuationResponse valuation(
@@ -26,7 +27,9 @@ public class ValuationController {
   ) {
     String normalizedPostcode = PostcodeNormalizer.normalize(postcode);
     ZoneType resolvedType = ZoneTypeParser.parseOrDefault(zoneType);
-    Zone zone = ZoneResolver.resolve(resolvedType, normalizedPostcode);
+    Zone zone = resolvedType == ZoneType.LSOA
+        ? ZoneResolver.resolve(resolvedType, normalizedPostcode, lsoaLookup)
+        : ZoneResolver.resolve(resolvedType, normalizedPostcode);
     BigDecimal medianPrice = medianPriceProvider.medianPriceFor(zone);
     ValuationResult result = calculator.calculate(medianPrice, landShare, taxRate);
 
