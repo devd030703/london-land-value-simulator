@@ -1,44 +1,67 @@
 # AI Context
 
 ## Project
-**London Land Value Simulator (MVP)** — a learning project to explore simple, transparent land valuation assumptions and an illustrative Land Value Tax (LVT) for London, starting with **Tower Hamlets**.
+**London Land Value Simulator (MVP)** — a learning-focused engineering project to explore transparent land valuation and illustrative Land Value Tax (LVT) scenarios for London.
 
-## Current status
-- Local repo created on macOS Desktop
-- Git initialised and pushed successfully to GitHub
-- SSH auth working
-- Repo folders exist: `engine/`, `backend/`, `frontend/`, `data/`, `docs/`
+## Contributors
+- **Dev** – primary owner, engine module, domain modelling
+- **Sam** – backend, Spring Boot API, data ingestion
 
-## V1 Goal
-Given a **postcode** (Tower Hamlets), show:
-- Borough + zone
-- Typical local property value (median of recent sales in the zone)
-- **Estimated land value per dwelling** (scenario-based)
-- **Estimated annual land tax per dwelling** (scenario-based)
-- Clear assumptions/limitations
+## Current state
+- Multi-module Maven project (`engine`, `backend`)
+- Java 21
+- All builds and tests pass from repo root
+- SSH + GitHub configured
 
-## V1 Model
-1. Normalise & validate postcode
-2. Lookup postcode → borough + zone
-3. Compute `median_price(zone)` from recent transactions
-4. Apply land share:
-   - `land_value_per_dwelling = median_price × land_share`
-5. Apply tax rate:
-   - `annual_lvt = land_value_per_dwelling × tax_rate`
+### Engine module
+- ValuationCalculator + ValuationResult
+- PostcodeNormalizer + PostcodeValidator
+- Full unit test coverage
+- No framework dependencies
 
-Notes:
-- Use `BigDecimal` for money and rates
-- Rates stored as decimals (e.g. `0.40` for 40%)
+### Backend module
+- Spring Boot REST API
+- `/valuation` endpoint
+- MockMvc controller tests
+- Depends on engine module only
 
-## V1 Data sources (planned)
-- HM Land Registry Price Paid Data (sold prices)
-- ONS Postcode Directory (postcode → geographies)
+---
 
-## Responsibilities
-- Dev owns `engine/` module: pure Java valuation logic + postcode utilities + unit tests
-- Friend owns `backend/` module: Spring Boot API + data pipeline
-- Frontend is minimal in V1 (postcode + sliders + results)
+## Current API
+Returns:
+- normalizedPostcode
+- medianPrice
+- landShare
+- taxRate
+- landValuePerDwelling
+- annualLandTax
+
+---
+
+## Near-term goal
+Remove the `medianPrice` query parameter and replace it with:
+- postcode → zone lookup
+- zone → median sale price derived from data
+
+---
+
+## Planned data sources
+- HM Land Registry Price Paid Data
+- ONS Postcode Directory (postcode → geography)
+
+---
+
+## Engineering principles
+- Engine is pure Java (no frameworks)
+- Backend is thin orchestration only
+- Clear validation boundaries
+- Deterministic, testable logic
+- No hidden assumptions
+
+---
 
 ## Next tasks
-- Create Maven multi-module structure (parent `pom.xml`, `engine` module, tests)
-- Implement `PostcodeNormalizer`, `PostcodeValidator`, `ValuationCalculator` + JUnit tests
+1. Introduce zone abstraction (postcode prefix / LSOA)
+2. Stub median values by zone
+3. Load real datasets
+4. Add minimal frontend
