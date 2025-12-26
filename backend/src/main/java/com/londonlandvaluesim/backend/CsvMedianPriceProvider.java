@@ -34,6 +34,14 @@ public final class CsvMedianPriceProvider implements MedianPriceProvider {
     return median;
   }
 
+  public boolean hasPrice(Zone zone) {
+    if (zone == null || zone.code() == null || zone.code().isBlank() || zone.type() == null) {
+      return false;
+    }
+
+    return medians.containsKey(keyFor(zone.type().name(), zone.code()));
+  }
+
   private Map<String, BigDecimal> loadMedians() {
     InputStream stream = CsvMedianPriceProvider.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
     if (stream == null) {
