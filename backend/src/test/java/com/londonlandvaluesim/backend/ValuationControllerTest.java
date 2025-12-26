@@ -20,12 +20,13 @@ class ValuationControllerTest {
   void returnsNormalizedPostcodeAndCalculatedValues() throws Exception {
     mockMvc.perform(get("/valuation")
             .param("postcode", "e148hx")
-            .param("medianPrice", "500000")
             .param("landShare", "0.4")
             .param("taxRate", "0.03"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.normalizedPostcode").value("E14 8HX"))
-        .andExpect(jsonPath("$.landValuePerDwelling").value(200000.0))
-        .andExpect(jsonPath("$.annualLandTax").value(6000.0));
+        .andExpect(jsonPath("$.zone").value("E14"))
+        .andExpect(jsonPath("$.medianPrice").value(500000))
+        .andExpect(jsonPath("$.landValuePerDwelling").value(200000.00))
+        .andExpect(jsonPath("$.annualLandTax").value(6000.00));
   }
 }
