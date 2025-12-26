@@ -14,4 +14,13 @@ class CsvMedianPriceProviderTest {
             com.londonlandvaluesim.engine.ZoneType.OUTWARD_POSTCODE, "E14"));
     assertEquals(new BigDecimal("500000"), median);
   }
+
+  @Test
+  void loadsMedianPricesForLsoa() {
+    CsvMedianPriceProvider provider = new CsvMedianPriceProvider();
+    BigDecimal median = provider.medianPriceFor(
+        new com.londonlandvaluesim.engine.Zone(
+            com.londonlandvaluesim.engine.ZoneType.LSOA, "E01000001"));
+    assertEquals(new BigDecimal("520000"), median);
+  }
 }

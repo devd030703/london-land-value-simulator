@@ -30,4 +30,19 @@ class ValuationControllerTest {
         .andExpect(jsonPath("$.landValuePerDwelling").value(200000.00))
         .andExpect(jsonPath("$.annualLandTax").value(6000.00));
   }
+
+  @Test
+  void returnsLsoaValuationWhenZoneTypeProvided() throws Exception {
+    mockMvc.perform(get("/valuation")
+            .param("postcode", "e148hx")
+            .param("zoneType", "LSOA")
+            .param("landShare", "0.4")
+            .param("taxRate", "0.03"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.zoneType").value("LSOA"))
+        .andExpect(jsonPath("$.zoneCode").value("E01000001"))
+        .andExpect(jsonPath("$.medianPrice").value(520000))
+        .andExpect(jsonPath("$.landValuePerDwelling").value(208000.00))
+        .andExpect(jsonPath("$.annualLandTax").value(6240.00));
+  }
 }
